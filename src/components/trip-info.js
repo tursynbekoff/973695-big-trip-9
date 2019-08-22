@@ -1,4 +1,4 @@
-export const tripInfo = (initialDesination, lastDestination, beginningDate, lastDate) => {
+export const tripInfo = (object) => {
   const months = [`January`,
     `February`,
     `March`,
@@ -12,12 +12,12 @@ export const tripInfo = (initialDesination, lastDestination, beginningDate, last
     `November`,
     `December`];
 
-  const makeTripDestination = (originalDesination, finallDestination, startDate, endDate) => `<div class="trip-info__main">
-    <h1 class="trip-info__title">${originalDesination} &mdash; ... &mdash; ${finallDestination}</h1>
+  const makeTripDestination = (data) => `<div class="trip-info__main">
+    <h1 class="trip-info__title">${data.originalDestination} &mdash; ... &mdash; ${data.finallDestination}</h1>
 
-    <p class="trip-info__dates">${months[new Date(startDate).getMonth()]} ${new Date(startDate).getDate()}&nbsp;&mdash;&nbsp;
-    ${months[new Date(endDate).getMonth()]} ${new Date(endDate).getDate()}</p>
+    <p class="trip-info__dates">${months[new Date(data.startDate).getMonth()]} ${new Date(data.startDate).getDate()}&nbsp;&mdash;&nbsp;
+    ${months[new Date(data.endDate).getMonth()]} ${new Date(data.endDate).getDate()}</p>
   </div>`.trim();
 
-  return makeTripDestination(initialDesination, lastDestination, beginningDate, lastDate);
+  return makeTripDestination(object);
 };
