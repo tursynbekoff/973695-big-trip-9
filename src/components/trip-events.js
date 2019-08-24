@@ -1,7 +1,7 @@
 export const tripEvents = (object) => {
 
   const makeTripDestination = (data) => {
-    let sum;
+    let sum = ``;
     for (let i = 0; i < 3; i++) {
       let template = `<li class="trip-events__item">
           <div class="event">
