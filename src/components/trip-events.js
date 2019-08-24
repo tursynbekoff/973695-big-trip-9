@@ -1,9 +1,11 @@
 export const tripEvents = (object) => {
 
   const makeTripDestination = (data) => {
-    let sum = ``;
+    let cards = ``;
+    let totalPrice = 0;
     for (let i = 0; i < 3; i++) {
-      let template = `<li class="trip-events__item">
+      const price = data.intermediatePrice[data.originalDestination][i] + data.optionCost[1];
+      const template = `<li class="trip-events__item">
           <div class="event">
             <div class="event__type">
               <img class="event__type-icon" width="42" height="42" src="img/icons/${data.transportTypes[i].toLowerCase()}.png" alt="Event type icon">
@@ -20,7 +22,7 @@ export const tripEvents = (object) => {
             </div>
 
             <p class="event__price">
-              &euro;&nbsp;<span class="event__price-value">${data.intermediatePrice[data.originalDestination][i] + data.optionCost[1]}</span>
+              &euro;&nbsp;<span class="event__price-value">${price}</span>
             </p>
 
             <h4 class="visually-hidden">Offers:</h4>
@@ -37,9 +39,14 @@ export const tripEvents = (object) => {
             </button>
           </div>
         </li>`.trim();
-      sum += template;
+      cards += template;
+      totalPrice += price;
+
     }
-    return sum;
+    const tripCost = document.querySelector(`.trip-info__cost-value`);
+    tripCost.innerText = totalPrice;
+
+    return cards;
   };
   return makeTripDestination(object);
 };
