@@ -1,10 +1,5 @@
+import {createElement} from '../utils.js';
 export const tripEvents = () => {
-
-  const createElement = (template) => {
-    const newElement = document.createElement(`div`);
-    newElement.innerHTML = template;
-    return newElement.firstChild;
-  };
 
   class TripDestination {
     constructor({originalDestination, transportTypes, intermediateCities, startDate, endDate, intermediateStartTime, intermediateEndTime, transportationDuration, intermediatePrice, optionCost, additionalOptions}) {
@@ -36,9 +31,9 @@ export const tripEvents = () => {
       return `<li class="trip-events__item">
           <div class="event">
             <div class="event__type">
-              <img class="event__type-icon" width="42" height="42" src="img/icons/${this._transportType[0].toLowerCase()}.png" alt="Event type icon">
+              <img class="event__type-icon" width="42" height="42" src="img/icons/${this._transportType.toLowerCase()}.png" alt="Event type icon">
             </div>
-            <h3 class="event__title">${this._transportType[0]} to ${this._intermediateCity}</h3>
+            <h3 class="event__title">${this._transportType} to ${this._intermediateCity}</h3>
 
             <div class="event__schedule">
               <p class="event__time">

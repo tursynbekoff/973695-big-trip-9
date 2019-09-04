@@ -25,14 +25,21 @@ const renderComponents = (container, element, place) => {
 };
 
 const render = (container, element, place) => {
-  container.insertAdjacentHTML(place, element);
+  switch (place) {
+    case Position.AFTERBEGIN:
+      container.prepend(element);
+      break;
+    case Position.BEFOREEND:
+      container.append(element);
+      break;
+  }
 };
 
-// const createElement = (template) => {
-//   const newElement = document.createElement(`div`);
-//   newElement.innerHTML = template;
-//   return newElement.firstChild;
-// };
+const unrender = (element) => {
+  if (element) {
+    element.remove();
+  }
+};
 
 const TripDestination = tripEvents();
 const TripEditDestination = tripEventEdit();
@@ -41,11 +48,26 @@ const tripMain = document.querySelector(`.trip-main__trip-info`);
 const siteTripControlElement = document.querySelector(`.trip-main__trip-controls`);
 const tripEvent = document.querySelector(`.trip-events`);
 
-render(tripMain, tripInfo(object), `afterbegin`);
-render(siteTripControlElement, tripControls(), `afterbegin`);
-render(siteTripControlElement, tripFilters(), `beforeend`);
-render(tripEvent, tripEventSort(), `afterbegin`);
-render(tripEvent, tripEventWrapper(object), `beforeend`);
+const TripInfo = tripInfo();
+const tripInfoDisplay = new TripInfo(object);
+
+const TripControls = tripControls();
+const tripControlsDisplay = new TripControls();
+
+const TripFilters = tripFilters();
+const tripFiltersDisplay = new TripFilters();
+
+const TripEventSort = tripEventSort();
+const tripEventSortDisplay = new TripEventSort();
+
+const TripEventWrapper = tripEventWrapper();
+const tripEventWrapperDisplay = new TripEventWrapper(object);
+
+render(tripMain, tripInfoDisplay.getElement(), Position.AFTERBEGIN);
+render(siteTripControlElement, tripControlsDisplay.getElement(), Position.AFTERBEGIN);
+render(siteTripControlElement, tripFiltersDisplay.getElement(), Position.BEFOREEND);
+render(tripEvent, tripEventSortDisplay.getElement(), Position.AFTERBEGIN);
+render(tripEvent, tripEventWrapperDisplay.getElement(), Position.BEFOREEND);
 
 const eventContainer = document.querySelector(`.trip-events__list`);
 
@@ -71,7 +93,7 @@ const renderEvent = (eventMock) => {
   renderComponents(eventContainer, eventDisplay.getElement(), Position.AFTERBEGIN);
 };
 
-const EVENT_COUNT = 3;
+const EVENT_COUNT = 5;
 
 const eventMocks = new Array(EVENT_COUNT)
                   .fill(``)
@@ -92,7 +114,4 @@ sortedEventMocks.forEach((eachEvent) => {
 const tripCost = document.querySelector(`.trip-info__cost-value`);
 tripCost.innerText = totalPrice;
 
-// const concatinatedEvents = sortedEventMocks.map((eventMock) => {
-//   renderEvent(eventMock);
-// });
 sortedEventMocks.forEach((eventMock) => renderEvent(eventMock));

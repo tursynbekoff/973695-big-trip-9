@@ -1,10 +1,6 @@
-export const tripEventEdit = () => {
+import {createElement} from '../utils.js';
 
-  const createElement = (template) => {
-    const newElement = document.createElement(`div`);
-    newElement.innerHTML = template;
-    return newElement.firstChild;
-  };
+export const tripEventEdit = () => {
 
   class EditTripDestination {
     constructor({transportTypes, description, originalDestination, intermediateCities, startDate, endDate, intermediateStartTime, intermediateEndTime, transportationDuration, intermediatePrice, optionCost, additionalOptions}) {
@@ -40,7 +36,7 @@ export const tripEventEdit = () => {
           <div class="event__type-wrapper">
             <label class="event__type  event__type-btn" for="event-type-toggle-1">
               <span class="visually-hidden">Choose event type</span>
-              <img class="event__type-icon" width="17" height="17" src="img/icons/${this._transportType[0].toLowerCase()}.png" alt="Event type icon">
+              <img class="event__type-icon" width="17" height="17" src="img/icons/${this._transportType.toLowerCase()}.png" alt="Event type icon">
             </label>
             <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
 
