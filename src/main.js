@@ -1,45 +1,15 @@
 import {data} from './components/data.js';
-import {tripInfo} from './components/trip-info.js';
-import {tripControls} from './components/trip-controls.js';
-import {tripFilters} from './components/trip-filters.js';
-import {tripEventSort} from './components/trip-event-sort.js';
-import {tripEventWrapper} from './components/trip-event-wrapper.js';
+import MakeTripDestination from './components/trip-info.js';
+import TripControls from './components/trip-controls.js';
+
+import TripFilters from './components/trip-filters.js';
+import TripEventSort from './components/trip-event-sort.js';
+import TripEventWrapper from './components/trip-event-wrapper.js';
 import {tripEvents} from './components/trip-events.js';
 import {tripEventEdit} from './components/trip-event-edit.js';
+import {render} from './utils.js';
+import {Position} from './utils.js';
 const object = data();
-
-const Position = {
-  AFTERBEGIN: `afterbegin`,
-  BEFOREEND: `beforeend`
-};
-
-const renderComponents = (container, element, place) => {
-  switch (place) {
-    case Position.AFTERBEGIN:
-      container.prepend(element);
-      break;
-    case Position.BEFOREEND:
-      container.append(element);
-      break;
-  }
-};
-
-const render = (container, element, place) => {
-  switch (place) {
-    case Position.AFTERBEGIN:
-      container.prepend(element);
-      break;
-    case Position.BEFOREEND:
-      container.append(element);
-      break;
-  }
-};
-
-const unrender = (element) => {
-  if (element) {
-    element.remove();
-  }
-};
 
 const TripDestination = tripEvents();
 const TripEditDestination = tripEventEdit();
@@ -48,19 +18,14 @@ const tripMain = document.querySelector(`.trip-main__trip-info`);
 const siteTripControlElement = document.querySelector(`.trip-main__trip-controls`);
 const tripEvent = document.querySelector(`.trip-events`);
 
-const TripInfo = tripInfo();
-const tripInfoDisplay = new TripInfo(object);
+const tripInfoDisplay = new MakeTripDestination(object);
 
-const TripControls = tripControls();
 const tripControlsDisplay = new TripControls();
 
-const TripFilters = tripFilters();
 const tripFiltersDisplay = new TripFilters();
 
-const TripEventSort = tripEventSort();
 const tripEventSortDisplay = new TripEventSort();
 
-const TripEventWrapper = tripEventWrapper();
 const tripEventWrapperDisplay = new TripEventWrapper(object);
 
 render(tripMain, tripInfoDisplay.getElement(), Position.AFTERBEGIN);
@@ -68,6 +33,7 @@ render(siteTripControlElement, tripControlsDisplay.getElement(), Position.AFTERB
 render(siteTripControlElement, tripFiltersDisplay.getElement(), Position.BEFOREEND);
 render(tripEvent, tripEventSortDisplay.getElement(), Position.AFTERBEGIN);
 render(tripEvent, tripEventWrapperDisplay.getElement(), Position.BEFOREEND);
+
 
 const eventContainer = document.querySelector(`.trip-events__list`);
 
@@ -90,7 +56,7 @@ const renderEvent = (eventMock) => {
     eventContainer.replaceChild(eventEdit.getElement(), eventDisplay.getElement());
     document.addEventListener(`keydown`, onEscKeyDown);
   });
-  renderComponents(eventContainer, eventDisplay.getElement(), Position.AFTERBEGIN);
+  render(eventContainer, eventDisplay.getElement(), Position.AFTERBEGIN);
 };
 
 const EVENT_COUNT = 5;

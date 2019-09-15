@@ -1,36 +1,40 @@
 import {createElement} from '../utils.js';
-export const tripEventWrapper = () => {
 
-  const months = [`Jan`,
-    `Feb`,
-    `Mar`,
-    `Apr`,
-    `May`,
-    `Jun`,
-    `Jul`,
-    `Aug`,
-    `Sep`,
-    `Oct`,
-    `Nov`,
-    `Dec`];
+const months = [`Jan`,
+  `Feb`,
+  `Mar`,
+  `Apr`,
+  `May`,
+  `Jun`,
+  `Jul`,
+  `Aug`,
+  `Sep`,
+  `Oct`,
+  `Nov`,
+  `Dec`];
 
-  class TripEventWrapper {
-    constructor({startDate}) {
-      this._startDate = startDate;
-      this._element = null;
+export default class TripEventWrapper {
+  constructor({startDate}) {
+    this._startDate = startDate;
+    this._element = null;
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
     }
 
-    getElement() {
-      if (!this._element) {
-        this._element = createElement(this.getTemplate());
-      }
+    return this._element;
+  }
 
-      return this._element;
-    }
+  removeElement() {
+    this._element = null;
+    return this._element;
+  }
 
-    getTemplate() {
+  getTemplate() {
 
-      return `<ul class="trip-days">
+    return `<ul class="trip-days">
             <li class="trip-days__item day">
               <div class="day__info">
                 <span class="day__counter">1</span>
@@ -41,7 +45,5 @@ export const tripEventWrapper = () => {
               </ul>
             </li>
          </ul>`.trim();
-    }
   }
-  return TripEventWrapper;
-};
+}

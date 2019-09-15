@@ -27,6 +27,11 @@ export const tripEventEdit = () => {
       return this._element;
     }
 
+    removeElement() {
+      this._element = null;
+      return this._element;
+    }
+
     getTemplate() {
       const price = this._optionCost[0] + this._intermadiatePrice;
 
