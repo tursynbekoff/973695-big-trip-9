@@ -1,29 +1,49 @@
-import {tripEvents} from './trip-events.js';
-export const tripEventWrapper = (object) => {
+import {createElement} from '../utils.js';
 
-  const months = [`Jan`,
-    `Feb`,
-    `Mar`,
-    `Apr`,
-    `May`,
-    `Jun`,
-    `Jul`,
-    `Aug`,
-    `Sep`,
-    `Oct`,
-    `Nov`,
-    `Dec`];
+const months = [`Jan`,
+  `Feb`,
+  `Mar`,
+  `Apr`,
+  `May`,
+  `Jun`,
+  `Jul`,
+  `Aug`,
+  `Sep`,
+  `Oct`,
+  `Nov`,
+  `Dec`];
 
-  const makeTripDestination = (data) =>`<ul class="trip-days">
-      <li class="trip-days__item  day">
-        <div class="day__info">
-          <span class="day__counter">1</span>
-          <time class="day__date" datetime="${new Date(data.startDate).getYear() + 1900}-${new Date(data.startDate).getMonth() + 1}-${new Date(data.startDate).getDate()}">${months[new Date(data.startDate).getMonth()]} ${new Date(data.startDate).getDate()}</time>
-        </div>
-        <ul class="trip-events__list">
-          ${tripEvents(data)}
-        </ul>
-      </li>
-   </ul>`.trim();
-  return makeTripDestination(object);
-};
+export default class TripEventWrapper {
+  constructor({startDate}) {
+    this._startDate = startDate;
+    this._element = null;
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+    return this._element;
+  }
+
+  getTemplate() {
+
+    return `<ul class="trip-days">
+            <li class="trip-days__item day">
+              <div class="day__info">
+                <span class="day__counter">1</span>
+                <time class="day__date" datetime="${new Date(this._startDate).getYear() + 1900}-${new Date(this._startDate).getMonth() + 1}-${new Date(this._startDate).getDate()}">${months[new Date(this._startDate).getMonth()]} ${new Date(this._startDate).getDate()}</time>
+              </div>
+              <ul class="trip-events__list">
+
+              </ul>
+            </li>
+         </ul>`.trim();
+  }
+}

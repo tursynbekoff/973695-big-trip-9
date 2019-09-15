@@ -1,23 +1,43 @@
-export const tripInfo = (object) => {
-  const months = [`January`,
-    `February`,
-    `March`,
-    `April`,
-    `May`,
-    `June`,
-    `July`,
-    `August`,
-    `September`,
-    `October`,
-    `November`,
-    `December`];
+import {createElement} from '../utils.js';
+const months = [`January`,
+  `February`,
+  `March`,
+  `April`,
+  `May`,
+  `June`,
+  `July`,
+  `August`,
+  `September`,
+  `October`,
+  `November`,
+  `December`];
 
-  const makeTripDestination = (data) => `<div class="trip-info__main">
-    <h1 class="trip-info__title">${data.originalDestination} &mdash; ... &mdash; ${data.finallDestination}</h1>
+export default class MakeTripDestination {
+  constructor({originalDestination, finallDestination, startDate, endDate}) {
+    this._originalDestination = originalDestination;
+    this._finallDestination = finallDestination;
+    this._startDate = startDate;
+    this._endDate = endDate;
+    this._element = null;
+  }
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
 
-    <p class="trip-info__dates">${months[new Date(data.startDate).getMonth()]} ${new Date(data.startDate).getDate()}&nbsp;&mdash;&nbsp;
-    ${months[new Date(data.endDate).getMonth()]} ${new Date(data.endDate).getDate()}</p>
-  </div>`.trim();
+    return this._element;
+  }
 
-  return makeTripDestination(object);
-};
+  removeElement() {
+    this._element = null;
+    return this._element;
+  }
+
+  getTemplate() {
+    return `<div class="trip-info__main">
+        <h1 class="trip-info__title">${this._originalDestination} &mdash; ... &mdash; ${this._finallDestination}</h1>
+        <p class="trip-info__dates">${months[new Date(this._startDate).getMonth()]} ${new Date(this._startDate).getDate()}&nbsp;&mdash;&nbsp;
+          ${months[new Date(this._endDate).getMonth()]} ${new Date(this._endDate).getDate()}</p>
+      </div>`.trim();
+  }
+}
