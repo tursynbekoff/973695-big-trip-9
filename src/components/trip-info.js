@@ -1,4 +1,4 @@
-import {createElement} from '../utils.js';
+import AbstractComponent from './abstract-component.js';
 const months = [`January`,
   `February`,
   `March`,
@@ -12,25 +12,14 @@ const months = [`January`,
   `November`,
   `December`];
 
-export default class MakeTripDestination {
+export default class MakeTripDestination extends AbstractComponent {
   constructor({originalDestination, finallDestination, startDate, endDate}) {
+    super();
     this._originalDestination = originalDestination;
     this._finallDestination = finallDestination;
     this._startDate = startDate;
     this._endDate = endDate;
     this._element = null;
-  }
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-    return this._element;
   }
 
   getTemplate() {
