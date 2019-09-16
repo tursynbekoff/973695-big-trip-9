@@ -1,41 +1,39 @@
 import {createElement} from '../utils.js';
 
-export const tripEventEdit = () => {
+export default class EditTripDestination {
+  constructor({transportTypes, description, originalDestination, intermediateCities, startDate, endDate, intermediateStartTime, intermediateEndTime, transportationDuration, intermediatePrice, optionCost, additionalOptions}) {
+    this._transportType = transportTypes;
+    this._description = description;
+    this._originalDestination = originalDestination;
+    this._intermediateCity = intermediateCities;
+    this._startDate = startDate;
+    this._endDate = endDate;
+    this._intermediateStartTime = intermediateStartTime;
+    this._intermediateEndTime = intermediateEndTime;
+    this._transportationDuration = transportationDuration;
+    this._intermadiatePrice = intermediatePrice;
+    this._optionCost = optionCost;
+    this._optionName = additionalOptions;
+    this._element = null;
+  }
 
-  class EditTripDestination {
-    constructor({transportTypes, description, originalDestination, intermediateCities, startDate, endDate, intermediateStartTime, intermediateEndTime, transportationDuration, intermediatePrice, optionCost, additionalOptions}) {
-      this._transportType = transportTypes;
-      this._description = description;
-      this._originalDestination = originalDestination;
-      this._intermediateCity = intermediateCities;
-      this._startDate = startDate;
-      this._endDate = endDate;
-      this._intermediateStartTime = intermediateStartTime;
-      this._intermediateEndTime = intermediateEndTime;
-      this._transportationDuration = transportationDuration;
-      this._intermadiatePrice = intermediatePrice;
-      this._optionCost = optionCost;
-      this._optionName = additionalOptions;
-      this._element = null;
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
     }
 
-    getElement() {
-      if (!this._element) {
-        this._element = createElement(this.getTemplate());
-      }
+    return this._element;
+  }
 
-      return this._element;
-    }
+  removeElement() {
+    this._element = null;
+    return this._element;
+  }
 
-    removeElement() {
-      this._element = null;
-      return this._element;
-    }
+  getTemplate() {
+    const price = this._optionCost[0] + this._intermadiatePrice;
 
-    getTemplate() {
-      const price = this._optionCost[0] + this._intermadiatePrice;
-
-      return `<li class="trip-events__item">
+    return `<li class="trip-events__item">
       <form class="event  event--edit" action="#" method="post">
         <header class="event__header">
           <div class="event__type-wrapper">
@@ -197,8 +195,5 @@ export const tripEventEdit = () => {
         </section>
       </form>
     </li>`;
-    }
   }
-
-  return EditTripDestination;
-};
+}

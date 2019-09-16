@@ -1,38 +1,38 @@
 import {createElement} from '../utils.js';
-export const tripEvents = () => {
-  class TripDestination {
-    constructor({originalDestination, transportTypes, intermediateCities, startDate, endDate, intermediateStartTime, intermediateEndTime, transportationDuration, intermediatePrice, optionCost, additionalOptions}) {
-      this._originalDestination = originalDestination;
-      this._transportType = transportTypes;
-      this._intermediateCity = intermediateCities;
-      this._startDate = startDate;
-      this._endDate = endDate;
-      this._intermediateStartTime = intermediateStartTime;
-      this._intermediateEndTime = intermediateEndTime;
-      this._transportationDuration = transportationDuration;
-      this._intermadiatePrice = intermediatePrice;
-      this._optionCost = optionCost;
-      this._optionName = additionalOptions;
-      this._element = null;
+
+export default class TripDestination {
+  constructor({originalDestination, transportTypes, intermediateCities, startDate, endDate, intermediateStartTime, intermediateEndTime, transportationDuration, intermediatePrice, optionCost, additionalOptions}) {
+    this._originalDestination = originalDestination;
+    this._transportType = transportTypes;
+    this._intermediateCity = intermediateCities;
+    this._startDate = startDate;
+    this._endDate = endDate;
+    this._intermediateStartTime = intermediateStartTime;
+    this._intermediateEndTime = intermediateEndTime;
+    this._transportationDuration = transportationDuration;
+    this._intermadiatePrice = intermediatePrice;
+    this._optionCost = optionCost;
+    this._optionName = additionalOptions;
+    this._element = null;
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
     }
 
-    getElement() {
-      if (!this._element) {
-        this._element = createElement(this.getTemplate());
-      }
+    return this._element;
+  }
 
-      return this._element;
-    }
+  removeElement() {
+    this._element = null;
+    return this._element;
+  }
 
-    removeElement() {
-      this._element = null;
-      return this._element;
-    }
+  getTemplate() {
+    const price = this._optionCost[0] + this._intermadiatePrice;
 
-    getTemplate() {
-      const price = this._optionCost[0] + this._intermadiatePrice;
-
-      return `<li class="trip-events__item">
+    return `<li class="trip-events__item">
           <div class="event">
             <div class="event__type">
               <img class="event__type-icon" width="42" height="42" src="img/icons/${this._transportType.toLowerCase()}.png" alt="Event type icon">
@@ -66,8 +66,5 @@ export const tripEvents = () => {
             </button>
           </div>
         </li>`;
-    }
   }
-
-  return TripDestination;
-};
+}
