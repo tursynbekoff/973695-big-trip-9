@@ -1,7 +1,8 @@
-import {createElement} from '../utils.js';
+import AbstractComponent from './abstract-component.js';
 
-export default class TripDestination {
+export default class TripDestination extends AbstractComponent {
   constructor({originalDestination, transportTypes, intermediateCities, startDate, endDate, intermediateStartTime, intermediateEndTime, transportationDuration, intermediatePrice, optionCost, additionalOptions}) {
+    super();
     this._originalDestination = originalDestination;
     this._transportType = transportTypes;
     this._intermediateCity = intermediateCities;
@@ -13,20 +14,6 @@ export default class TripDestination {
     this._intermadiatePrice = intermediatePrice;
     this._optionCost = optionCost;
     this._optionName = additionalOptions;
-    this._element = null;
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-    return this._element;
   }
 
   getTemplate() {
