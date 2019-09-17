@@ -55,17 +55,10 @@ export default class TripController {
 
     const onClickNewTripButton = document.querySelector(`.trip-main__event-add-btn`);
 
-    onClickNewTripButton.addEventListener(`click`, () => {
-      onClickNewTripButton.disabled = true;
-      const eventContainer = document.querySelector(`.trip-events__list`);
-      render(eventContainer, this._newEvent.getElement(), Position.BEFOREEND);
+    onClickNewTripButton.addEventListener(`click`, (evt) => this._onNewEventClick(evt));
 
-      const resetButton = document.querySelector(`.event__reset-btn`);
-      resetButton.addEventListener(`click`, this._onReset);
-      document.removeEventListener(`click`, this._onReset);
-    });
-
-    // .addEventListener(`click`, (evt) => this._onSortLinkClick(evt));
+    this._tripEventSortDisplay.getElement()
+      .addEventListener(`click`, (evt) => this._onSortLinkClick(evt));
   }
 
   _renderEvent(eventMock) {
@@ -104,6 +97,17 @@ export default class TripController {
     render(eventContainer, eventDisplay.getElement(), Position.AFTERBEGIN);
   }
 
+  _onNewEventClick() {
+    const onClickNewTripButton = document.querySelector(`.trip-main__event-add-btn`);
+    onClickNewTripButton.disabled = true;
+    const eventContainer = document.querySelector(`.trip-events__list`);
+    render(eventContainer, this._newEvent.getElement(), Position.BEFOREEND);
+
+    const resetButton = document.querySelector(`.event__reset-btn`);
+    resetButton.addEventListener(`click`, this._onReset);
+    document.removeEventListener(`click`, this._onNewEventClick);
+  }
+
   _onReset(evt) {
     const eventHeader = document.querySelector(`.event__header`);
     evt.preventDefault();
@@ -114,5 +118,27 @@ export default class TripController {
 
   _onSortLinkClick(evt) {
     evt.preventDefault();
+
+    const eventContainer = document.querySelector(`.trip-events__list`);
+    eventContainer.innerHTML = ``;
+
+    if (evt.target.dataset.sortType === `event`) {
+      const sortedByEvents = this._events.slice().sort(function (a, b) {
+        return a.intermediateCities.localeCompare(b.intermediateCities);
+      });
+      sortedByEvents.forEach((eventMock) => this._renderEvent(eventMock));
+    } else if (evt.target.dataset.sortType === `time`) {
+      const sortedByTime = this._events.slice().sort(function (a, b) {
+        const nextValue = (a.intermediateStartTime.replace(`:`, ``));
+        const currentValue = (b.intermediateStartTime.replace(`:`, ``));
+        return currentValue - nextValue;
+      });
+      sortedByTime.forEach((eventMock) => this._renderEvent(eventMock));
+    } else if (evt.target.dataset.sortType === `price`) {
+      const sortedByPrice = this._events.slice().sort(function (a, b) {
+        return b.intermediatePrice - a.intermediatePrice;
+      });
+      sortedByPrice.forEach((eventMock) => this._renderEvent(eventMock));
+    }
   }
 }
